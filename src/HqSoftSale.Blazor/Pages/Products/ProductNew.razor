@@ -1,0 +1,249 @@
+﻿@page "/products"
+
+@using HqSoftSale.Products;
+@using HqSoftSale.Localization;
+@using Microsoft.Extensions.Localization;
+@using Volo.Abp.Application.Dtos;
+@using Volo.Abp.AspNetCore.Components.Web;
+
+@inherits AbpCrudPageBase<IProductAppService, ProductDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateProductDto>
+@inject IStringLocalizer<HqSoftSaleResource> L
+@inject AbpBlazorMessageLocalizerHelper<HqSoftSaleResource> LH
+@inject IProductAppService ProductAppService
+@inject NavigationManager NavigationManager
+
+
+<Card>
+    <CardHeader>
+        <Row Class="justify-content-between">
+            <Column ColumnSize="ColumnSize.IsAuto">
+                <h2>@L["Product"]</h2>
+            </Column>
+            <Column ColumnSize="ColumnSize.IsAuto">
+                <Button Color="Color.Primary"
+                        Clicked="OpenCreateModalAsync">
+                    @L["NewProduct"]
+                </Button>
+            </Column>
+        </Row>
+    </CardHeader>
+    <CardBody>
+        <DataGrid TItem="ProductDto"
+                  Data="Entities"
+                  ReadData="OnDataGridReadAsync"
+                  TotalItems="TotalCount"
+                  ShowPager="true"
+                  PageSize="PageSize">
+            <DataGridColumns>
+                <DataGridEntityActionsColumn TItem="ProductDto" @ref="@EntityActionsColumn">
+                    <DisplayTemplate>
+                        <EntityActions TItem="ProductDto" EntityActionsColumn="@EntityActionsColumn">
+                            <EntityAction TItem="ProductDto"
+                                          Text="@L["Edit"]"
+                                          Clicked="() => OpenEditModalAsync(context)" />
+                            <EntityAction TItem="ProductDto"
+                                          Text="@L["Delete"]"
+                                          Clicked="() => DeleteEntityAsync(context)"
+                                          ConfirmationMessage="()=>GetDeleteConfirmationMessage(context)" />
+                        </EntityActions>
+                    </DisplayTemplate>
+                </DataGridEntityActionsColumn>
+                <DataGridColumn TItem="ProductDto"
+                                Field="@nameof(ProductDto.ProductID)"
+                                Caption="@L["ProductID"]"></DataGridColumn>
+                <DataGridColumn TItem="ProductDto"
+                                Field="@nameof(ProductDto.ProductName)"
+                                Caption="@L["ProductName"]">                
+                </DataGridColumn>
+                <DataGridColumn TItem="ProductDto"
+                                Field="@nameof(ProductDto.Type)"
+                                Caption="@L["WareHouseType"]">
+                    <DisplayTemplate>
+                        @L[$"Enum:WareHouseType.{context.Type}"]
+                    </DisplayTemplate>
+                </DataGridColumn>
+                <DataGridColumn TItem="ProductDto"
+                                Field="@nameof(ProductDto.UnitType)"
+                                Caption="@L["UnitType"]">
+                    <DisplayTemplate>
+                        @L[$"Enum:UnitType.{context.UnitType}"]
+                    </DisplayTemplate>
+                </DataGridColumn>
+                <DataGridColumn TItem="ProductDto"
+                                Field="@nameof(ProductDto.Quanity)"
+                                Caption="@L["Quanity"]">
+                </DataGridColumn>
+                <DataGridColumn TItem="ProductDto"
+                                Field="@nameof(ProductDto.Price)"
+                                Caption="@L["Price"]">                  
+                </DataGridColumn>
+                <DataGridColumn TItem="ProductDto"
+                                Field="@nameof(ProductDto.ExtenedAmount)"
+                                Caption="@L["ExtendedAmount"]">
+                </DataGridColumn>
+            </DataGridColumns>
+        </DataGrid>
+    </CardBody>
+</Card>
+
+<Modal @ref="@CreateModal">
+    <ModalBackdrop />
+    <ModalContent IsCentered="true">
+        <Form>
+            <ModalHeader>
+                <ModalTitle>@L["NewProduct"]</ModalTitle>
+                <CloseButton Clicked="CloseCreateModalAsync"/>
+            </ModalHeader>
+            <ModalBody>
+                <Validations @ref="@CreateValidationsRef" Model="@NewEntity" ValidateOnLoad="false">
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["ProductID"]</FieldLabel>
+                            <TextEdit @bind-Text="@NewEntity.ProductID">
+                                <Feedback>
+                                    <ValidationError/>
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["ProductName"]</FieldLabel>
+                            <TextEdit @bind-Text="@NewEntity.ProductName">
+                                <Feedback>
+                                    <ValidationError/>
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["WareHouseType"]</FieldLabel>
+                            <Select TValue="WarehouseType" @bind-SelectedValue="@NewEntity.Type">
+                                @foreach (int WareHouseTypeValue in Enum.GetValues(typeof(WarehouseType)))
+                                {
+                                    <SelectItem TValue="WarehouseType" Value="@((WarehouseType) WareHouseTypeValue)">
+                                        @L[$"Enum:WareHouseType.{WareHouseTypeValue}"]
+                                    </SelectItem>
+                                }
+                            </Select>
+                        </Field>                               
+                         <Field>
+                            <FieldLabel>@L["UnitType"]</FieldLabel>
+                            <Select TValue="UnitType" @bind-SelectedValue="@NewEntity.UnitType">
+                                @foreach (int UnitTypeValue in Enum.GetValues(typeof(UnitType)))
+                                {
+                                    <SelectItem TValue="UnitType" Value="@((UnitType) UnitTypeValue)">
+                                        @L[$"Enum:UnitType.{UnitTypeValue}"]
+                                    </SelectItem>
+                                }
+                            </Select>
+                        </Field>                      
+                    </Validation>
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["Quanity"]</FieldLabel>
+                            <NumericEdit TValue="int" @bind-Value="NewEntity.Quanity" />
+                        </Field>
+                    </Validation>
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["Price"]</FieldLabel>
+                            <NumericEdit TValue="double" @bind-Value="NewEntity.Price" />
+                        </Field>
+                    </Validation>
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["ExtendedAmount"]</FieldLabel>
+                            <NumericEdit TValue="double" @bind-Value="NewEntity.ExtenedAmount" />
+                        </Field>
+                    </Validation>                   
+                </Validations>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseCreateModalAsync">@L["Cancel"]</Button>
+                <Button Color="Color.Primary"
+                        Type="@ButtonType.Submit"
+                        PreventDefaultOnSubmit="true"
+                        Clicked="CreateEntityAsync">@L["Save"]</Button>
+            </ModalFooter>
+        </Form>
+    </ModalContent>
+</Modal>
+
+<Modal @ref="@EditModal">
+    <ModalBackdrop />
+    <ModalContent IsCentered="true">
+        <Form>
+            <ModalHeader>
+                <ModalTitle>@EditingEntity.ProductID</ModalTitle>
+                <CloseButton Clicked="CloseEditModalAsync"/>
+            </ModalHeader>
+            <ModalBody>
+                <Validations @ref="@EditValidationsRef" Model="@NewEntity" ValidateOnLoad="false">
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["Name"]</FieldLabel>
+                            <TextEdit @bind-Text="@EditingEntity.ProductName">
+                                <Feedback>
+                                    <ValidationError/>
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["WareHouseType"]</FieldLabel>
+                            <Select TValue="WarehouseType" @bind-SelectedValue="@EditingEntity.Type">
+                                @foreach (int WareHouseTypeValue in Enum.GetValues(typeof(WarehouseType)))
+                                {
+                                    <SelectItem TValue="WarehouseType" Value="@((WarehouseType) WareHouseTypeValue)">
+                                        @L[$"Enum:WareHouseType.{WareHouseTypeValue}"]
+                                    </SelectItem>
+                                }
+                            </Select>
+                        </Field>
+                        <Field>
+                            <FieldLabel>@L["UnitType"]</FieldLabel>
+                            <Select TValue="UnitType" @bind-SelectedValue="@EditingEntity.UnitType">
+                                @foreach (int UnitTypeValue in Enum.GetValues(typeof(UnitType)))
+                                {
+                                    <SelectItem TValue="UnitType" Value="@((UnitType) UnitTypeValue)">
+                                        @L[$"Enum:UnitType.{UnitTypeValue}"]
+                                    </SelectItem>
+                                }
+                            </Select>
+                        </Field>
+                    </Validation>
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["Quanity"]</FieldLabel>
+                            <NumericEdit TValue="int" @bind-Value="EditingEntity.Quanity" />
+                        </Field>
+                    </Validation>
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["Price"]</FieldLabel>
+                            <NumericEdit TValue="double" @bind-Value="EditingEntity.Price" />
+                        </Field>
+                    </Validation>
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["ExtendedAmount"]</FieldLabel>
+                            <NumericEdit TValue="double" @bind-Value="EditingEntity.ExtenedAmount" />
+                        </Field>
+                    </Validation>
+                </Validations>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseEditModalAsync">@L["Cancel"]</Button>
+                <Button Color="Color.Primary"
+                        Type="@ButtonType.Submit"
+                        PreventDefaultOnSubmit="true"
+                        Clicked="UpdateEntityAsync">@L["Save"]</Button>
+            </ModalFooter>
+        </Form>
+    </ModalContent>
+</Modal>
