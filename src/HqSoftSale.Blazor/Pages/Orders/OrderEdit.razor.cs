@@ -14,20 +14,22 @@ namespace HqSoftSale.Blazor.Pages.Orders
 {
     public partial class OrderEdit
     {
+        [Parameter]
+        public string Id { get; set; }
+        public Guid EditingEntityId { get; set; }
+        private int PageSize { get; } = LimitedResultRequestDto.DefaultMaxResultCount;
+        private int CurrentPage { get; set; }
+        private string CurrentSorting { get; set; }
+
         protected CreateUpdateOrderDto EditingEntity = new();
         protected CreateUpdateProductDto NewEntityProduct = new();
         protected Validations CreateValationRef;
         protected Validations EditValidationsRef;
         private IReadOnlyList<OrdDetailDto> OrdDetailList { get; set; }
 
-        [Parameter]
-        public string Id { get; set; }
-        public Guid EditingEntityId { get; set; }
-
+        
         protected override async Task OnInitializedAsync()
         {
-
-
             await base.OnInitializedAsync();
 
             EditingEntityId = Guid.Parse(Id);
@@ -67,29 +69,7 @@ namespace HqSoftSale.Blazor.Pages.Orders
                 await HandleErrorAsync(ex);
             }
         }
-
-        protected virtual async Task UpdateProductEntityAsync()
-        {
-            try
-            {
-                var validate = true;
-                if (EditValidationsRef != null)
-                {
-                    validate = await EditValidationsRef.ValidateAll();
-                }
-                if (validate)
-                {
-                    await ProductAppService.UpdateAsync(EditingEntityId, NewEntityProduct);
-
-                    NavigationManager.NavigateTo("orders");
-                }
-            }
-            catch (Exception ex)
-            {
-                await HandleErrorAsync(ex);
-            }
-        }
-
+      
         protected virtual async Task DeleteEntityAsync(Guid Id)
         {
             await OrderAppService.DeleteAsync(Id);
@@ -99,7 +79,7 @@ namespace HqSoftSale.Blazor.Pages.Orders
         private void GoToOrderPage()
         {
             NavigationManager.NavigateTo("/orders");
-        }      
+        }
 
         protected virtual async Task CreateProductEntityAsync()
         {
@@ -123,11 +103,26 @@ namespace HqSoftSale.Blazor.Pages.Orders
             }
         }
 
-        private bool _hideItem = false;
-
-        private void HideFilterBy()
+        protected virtual async Task UpdateProductEntityAsync()
         {
-            _hideItem = !_hideItem;
-        }
+            try
+            {
+                var validate = true;
+                if (EditValidationsRef != null)
+                {
+                    validate = await EditValidationsRef.ValidateAll();
+                }
+                if (validate)
+                {
+                    await ProductAppService.UpdateAsync(EditingEntityId, NewEntityProduct);
+
+                    NavigationManager.NavigateTo("orders");
+                }
+            }
+            catch (Exception ex)
+            {
+                await HandleErrorAsync(ex);
+            }
+        }      
     }
 }

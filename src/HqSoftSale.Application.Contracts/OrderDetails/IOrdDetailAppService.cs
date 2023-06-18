@@ -9,11 +9,11 @@ using Volo.Abp.Application.Services;
 namespace HqSoftSale.OrderDetails
 {
     public interface IOrdDetailAppService :
-    ICrudAppService< //Defines CRUD methods
-    OrdDetailDto, //Used to show order detail
-    Guid, //Primary key of the order detail entity
-    PagedAndSortedResultRequestDto, //Used for paging/sorting
-    CreateUpdateOrdDetailsDto> //Used to create/update a order detail
+    ICrudAppService< 
+    OrdDetailDto, 
+    Guid,
+    PagedAndSortedResultRequestDto,
+    CreateUpdateOrdDetailsDto> 
     {
         Task<List<OrdDetailDto>> GetProductsByOrderDetail(string orderId);
     }

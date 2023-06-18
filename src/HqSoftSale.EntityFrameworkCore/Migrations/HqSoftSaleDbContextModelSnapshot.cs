@@ -83,7 +83,16 @@ namespace HqSoftSale.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("ProductName")
+                        .HasColumnType("text");
+
                     b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UnitType")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");

@@ -32,7 +32,6 @@ namespace HqSoftSale.Blazor.Pages.Orders
             {
                 await CreateValationRef.ClearAll();
             }
-            //NewEntity.OrderNumber = await OrderAppService.GenerateOrderIdAsync();
 
             await CalculatePrice();
             await GetProductAsync();
@@ -59,20 +58,6 @@ namespace HqSoftSale.Blazor.Pages.Orders
                 await HandleErrorAsync(ex);
             }
         }
-
-        private void GoToOrderPage()
-        {
-            NavigationManager.NavigateTo("orders");
-        }
-
-
-        private bool _hideItem = false;
-
-        private void HideFilterBy()
-        {
-            _hideItem = !_hideItem;
-        }
-
 
         private async Task GetProductAsync()
         {

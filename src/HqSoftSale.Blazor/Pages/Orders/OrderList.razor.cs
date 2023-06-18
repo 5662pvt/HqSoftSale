@@ -49,27 +49,15 @@ namespace HqSoftSale.Blazor.Pages.Orders
             return dataGrid.Reload();
         }
 
-
-        //Xóa nhiều dòng trong Datagrid 
         async Task DeleteSelectedRows()
         {
             foreach (var item in selectedRows)
             {
                 await AppService.DeleteAsync(item.Id);
             }
-            // Refresh lại danh sách sau khi xóa
             await GetOrderAsync();
             selectedRows = new List<OrderDto>();
         }
-
-        private void NavigateToOrderDetailPage(Guid orderId)
-        {
-            var orderDetailUrl = $"/orders/{orderId}";
-
-            NavigationManager.NavigateTo(orderDetailUrl);
-        }
-
-
 
         private void GoToEditPage(OrderDto order)
         {
@@ -79,7 +67,5 @@ namespace HqSoftSale.Blazor.Pages.Orders
         {
             NavigationManager.NavigateTo("order/new");
         }
-
-        private bool _hideItem = false;
     }
 }

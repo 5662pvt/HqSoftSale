@@ -13,7 +13,7 @@ using Volo.Abp.EntityFrameworkCore;
 namespace HqSoftSale.Migrations
 {
     [DbContext(typeof(HqSoftSaleDbContext))]
-    [Migration("20230617174215_Created_OrderProduct_Entity")]
+    [Migration("20230618124657_Created_OrderProduct_Entity")]
     partial class CreatedOrderProductEntity
     {
         /// <inheritdoc />
@@ -86,7 +86,16 @@ namespace HqSoftSale.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("ProductName")
+                        .HasColumnType("text");
+
                     b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UnitType")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");

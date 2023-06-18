@@ -1,46 +1,16 @@
 {
   "Culture": "en",
   "Texts": {
-    "Menu:Home": "Inventory",
+    "Menu:Home": "Home",
     "Welcome": "Welcome",
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
     "Menu:Sales": "Order Management",
 
-    "Sales.RouteManager": "Route Manager",
-    "Sales.Maintenance": "Maintenance",
-    "Menu:Products": "Products Management",
-    "Actions": "Actions",
-    "Close": "Close",
-    "Delete": "Delete",
-    "Edit": "Edit",
-    "PublishDate": "Publish date",
-    "NewProduct": "New",
-    "Name": "Name",
-    "Type": "Type",
-    "Price": "Price",
-    "CreationTime": "Creation time",
-    "AreYouSure": "Are you sure?",
-    "AreYouSureToDelete": "Are you sure you want to delete this item?",
-
-    "Enum:OrderType.InvoiceOrder": "Invoice Order",
-    "Enum:OrderType.VanSales": "Van Sales",
-    "Enum:OrderType.DropShip": "Drop Ship",
-    "Enum:OrderType.InvoiceReturn": "Invoice Return",
-
-
     "Enum:OrderStatus.Open": "Open",
-    "Enum:OrderStatus.PrintedInvoice": "Printed Invoice",
-    "Enum:OrderStatus.Processing": "Processing",
-    "Enum:OrderStatus.ShipOnly": "Ship Only",
-    "Enum:OrderStatus.DeliveryAllocation": "Delivery Allocation",
     "Enum:OrderStatus.Complete": "Complete",
     "Enum:OrderStatus.Cancel": "Cancel",
-    "Enum:PaymentThod.Cash": "Cash",
-    "Enum:PaymentThod.OnlinePayment": "Online Payment",
-    "Enum:PaymentThod.TransferByBank": "Transfer By Bank",
-    "Enum:PaymentThod.CreditCard": "Credit Card",
 
-    "Enum:WarehouseType.WH1":"WH1", 
+    "Enum:WarehouseType.WH1": "WH1",
     "Enum:WarehouseType.WH2": "WH2",
 
     "Enum:UnitType.THUNG": "THUNG",

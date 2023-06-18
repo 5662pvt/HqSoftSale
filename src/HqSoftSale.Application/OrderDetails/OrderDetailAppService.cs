@@ -17,12 +17,12 @@ namespace HqSoftSale.OrderDetails
 {
     public class OrderDetailAppService :
     CrudAppService<
-        OrderDetail, //The Order entity
-        OrdDetailDto, //Used to show Orders
-        Guid, //Primary key of the Order entity
-        PagedAndSortedResultRequestDto, //Used for paging/sorting
-        CreateUpdateOrdDetailsDto>, //Used to create/update a Order
-    IOrdDetailAppService //implement the IOrderAppService
+        OrderDetail, 
+        OrdDetailDto, 
+        Guid, 
+        PagedAndSortedResultRequestDto, 
+        CreateUpdateOrdDetailsDto>,
+    IOrdDetailAppService 
     {
         private readonly IRepository<Order> _orderRepository;
         private readonly IRepository<Product> _productRepository;
@@ -41,16 +41,13 @@ namespace HqSoftSale.OrderDetails
         }
 
         public override async Task<OrdDetailDto> GetAsync(Guid id)
-        {
-            //Get the IQueryable<Order> from the repository
+        {         
             var queryable = await Repository.GetQueryableAsync();
-
-            //Prepare a query to join Orders and authors
+         
             var query = from OrderDetail in queryable
                         where OrderDetail.Id == id
                         select new { OrderDetail };
 
-            //Execute the query and get the Order with author
             var queryResult = await AsyncExecuter.FirstOrDefaultAsync(query);
             if (queryResult == null)
             {
@@ -63,30 +60,23 @@ namespace HqSoftSale.OrderDetails
 
         public override async Task<PagedResultDto<OrdDetailDto>> GetListAsync(PagedAndSortedResultRequestDto input)
         {
-            //Get the IQueryable<Order> from the repository
             var queryable = await Repository.GetQueryableAsync();
 
-            //Prepare a query to join Orders and authors
             var query = from OrderDetail in queryable
                         select new { OrderDetail };
-
-            //Paging
             query = query
                 .OrderBy(NormalizeSorting(input.Sorting))
                 .Skip(input.SkipCount)
                 .Take(input.MaxResultCount);
 
-            //Execute the query and get a list
             var queryResult = await AsyncExecuter.ToListAsync(query);
 
-            //Convert the query result to a list of OrderDto objects
             var OrderDtos = queryResult.Select(x =>
             {
                 var OrderDto = ObjectMapper.Map<OrderDetail, OrdDetailDto>(x.OrderDetail);
                 return OrderDto;
             }).ToList();
 
-            //Get the total count with another query
             var totalCount = await Repository.GetCountAsync();
 
             return new PagedResultDto<OrdDetailDto>(
@@ -101,7 +91,6 @@ namespace HqSoftSale.OrderDetails
             {
                 return $"OrderDetail.{nameof(OrderDetail.OrderID)}";
             }
-
             return $"OrderDetail.{sorting}";
         }
 
@@ -111,8 +100,6 @@ namespace HqSoftSale.OrderDetails
 
             var products = new List<OrdDetailDto>();
 
-
-            // Vòng lặp để truy vấn danh sách sản phẩm tương ứng với mỗi chi tiết đơn hàng trong danh sách
             foreach (var orderDetail in orderDetails)
             {
                 var product = await _orderDetailRepository.FirstOrDefaultAsync(p => p.ProductID == orderDetail.ProductID);
@@ -125,20 +112,20 @@ namespace HqSoftSale.OrderDetails
             return products;
         }
 
-        public async Task<List<OrdDetailDto>> GetProductsByOrderDetail(string orderId, string productId)
-        {
-            var orderDetail = await _orderDetailRepository.FirstOrDefaultAsync(od =>
-                od.OrderID == orderId && od.ProductID == productId);
+        //public async Task<List<OrdDetailDto>> GetProductsByOrderDetail(string orderId, string productId)
+        //{
+        //    var orderDetail = await _orderDetailRepository.FirstOrDefaultAsync(od =>
+        //        od.OrderID == orderId && od.ProductID == productId);
 
-            if (orderDetail == null)
-            {
-                throw new UserFriendlyException("Order detail not found.");
-            }
+        //    if (orderDetail == null)
+        //    {
+        //        throw new UserFriendlyException("Order detail not found.");
+        //    }
 
-            var products = await _orderDetailRepository.GetListAsync(p =>
-                p.ProductID == orderDetail.ProductID);
+        //    var products = await _orderDetailRepository.GetListAsync(p =>
+        //        p.ProductID == orderDetail.ProductID);
 
-            return ObjectMapper.Map<List<OrderDetail>, List<OrdDetailDto>>(products);
-        }
+        //    return ObjectMapper.Map<List<OrderDetail>, List<OrdDetailDto>>(products);
+        //}
     }
 }

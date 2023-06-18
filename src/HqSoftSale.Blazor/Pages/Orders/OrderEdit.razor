@@ -35,7 +35,7 @@
 
 
 <Row>
-    <Column style="@($"width:{(_hideItem ? "100%" : "75%")};")">
+    <Column>
         <Card>
             <CardBody>
                 <Validations @ref="@EditValidationsRef" Model="@EditingEntity" ValidateOnLoad="false">
@@ -97,19 +97,33 @@
                           ShowPager
                           Responsive>
                     <DataGridColumns>
-                        <DataGridMultiSelectColumn TItem="ProductDto" Width="30px"></DataGridMultiSelectColumn>
+                        <DataGridMultiSelectColumn TItem="OrdDetailDto" Width="30px"></DataGridMultiSelectColumn>
                         <DataGridCommandColumn />
                         @if (OrdDetailList != null)
                         {
-                            <DataGridColumn Field="@nameof(ProductDto.ProductID)" Caption="Product ID">                           
+                            <DataGridColumn Field="@nameof(OrdDetailDto.ProductID)" Caption="Product ID">                           
                             </DataGridColumn>
-                            <DataGridColumn Field="@nameof(ProductDto.ProductName)" Caption="Product Name" />
-                            <DataGridColumn Field="@nameof(ProductDto.Quanity)" Caption="Quanity" />
-                            <DataGridColumn Field="@nameof(ProductDto.UnitType)" Caption="UnitType" Context="order" />
-                           
-                            <DataGridColumn Field="@nameof(ProductDto.Price)" Caption="Price">
+                            <DataGridColumn Field="@nameof(OrdDetailDto.ProductName)" Caption="Product Name" />
+                             <DataGridColumn Field="@nameof(OrdDetailDto.UnitType)" Caption="UnitType" Context="order" />
+                            <DataGridColumn Field="@nameof(OrdDetailDto.Type)" Caption="WarehouseType" Context="order" />
+                            
+                            <DataGridColumn Field="@nameof(OrdDetailDto.Quantity)" Caption="Quantity" />
+                             <DataGridColumn Field="@nameof(OrdDetailDto.Price)" Caption="Product Price" />
+                            <DataGridColumn Field="@nameof(OrdDetailDto.ExtenedAmount)" Caption="ExtenedAmount" />
+
+                            <DataGridColumn Field="@nameof(OrdDetailDto.Quantity)" Caption="Quantity">
+                                <EditTemplate>
+                                    <NumericPicker TValue="int" @bind-Value="@context.Item.Quantity"></NumericPicker>
+                                </EditTemplate>
+                            </DataGridColumn>               
+                            <DataGridColumn Field="@nameof(OrdDetailDto.Price)" Caption="Price">
                                 <EditTemplate>
                                     <NumericPicker TValue="double" @bind-Value="@context.Item.Price"></NumericPicker>
+                                </EditTemplate>
+                            </DataGridColumn>
+                            <DataGridColumn Field="@nameof(OrdDetailDto.ExtenedAmount)" Caption="ExtenedAmount">
+                                <EditTemplate>
+                                    <NumericPicker TValue="double" @bind-Value="@context.Item.ExtenedAmount"></NumericPicker>
                                 </EditTemplate>
                             </DataGridColumn>
                         }
