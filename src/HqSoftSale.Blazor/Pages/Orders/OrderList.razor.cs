@@ -39,16 +39,7 @@ namespace HqSoftSale.Blazor.Pages.Orders
             TotalCount = (int)result.TotalCount;
         }
 
-        private string _searchString;
-        private DataGrid<OrderDto> dataGrid;
-        private List<string> _events = new();
-
-        private Task _quickFilter(string e)
-        {
-            _searchString = e;
-            return dataGrid.Reload();
-        }
-
+       
         async Task DeleteSelectedRows()
         {
             foreach (var item in selectedRows)

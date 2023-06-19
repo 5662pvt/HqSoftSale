@@ -11,8 +11,8 @@ namespace HqSoftSale.Orders
         public DateTime OrderDate { get; set; } 
         public string? Customer { get; set; }   
         public OrderStatus OrderStatus { get; set; }
-        public int Quanity { get; set; }
-        public double ExtenedAmount { get; set; }
+        //public int Quanity { get; set; }
+        //public double ExtenedAmount { get; set; }
         public bool IsSelected { get; set; }
     }
 }

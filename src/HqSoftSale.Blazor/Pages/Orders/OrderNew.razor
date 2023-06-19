@@ -27,9 +27,20 @@
     <Column>
     </Column>
     <Column Style="padding:10px 10px 10px 120px">
-        <Button Color="Color.Primary" Clicked="CreateEntityAsync">
-            <Icon Name="IconName.Save" IconStyle="IconStyle.Regular" /> @L["Save"]
-        </Button>
+        <Row Spacing="2" xs="1">
+            <Span />
+            <Column>
+            </Column>
+            <Column>
+            </Column>
+            <Column>
+            </Column>
+            <Column Style="padding:10px 10px 10px 120px">
+                <Button Color="Color.Primary" Clicked="CreateEntityAsync">
+                    <Icon Name="IconName.Save" IconStyle="IconStyle.Regular" /> @L["Save"]
+                </Button>
+            </Column>
+        </Row>
     </Column>
 </Row>
 <Row>
@@ -99,7 +110,7 @@
                                                                           TValue="string"
                                                                           Data="@products"
                                                                           TextField="@((item) => item?.ProductName)"
-                                                                          ValueField="@((item) => item?.ProductID)"
+                                                                          ValueField="@((item) => item?.ProductID)"                                                              
                                                                           Placeholder="Search..."
                                                                           Filter="AutocompleteFilter.StartsWith"
                                                                                         FreeTyping
@@ -108,13 +119,16 @@
                                                                         var product = products.FirstOrDefault(p => p.ProductID == item);
                                                                         if (product != null) {
                                                                                     NewDetailEntity.ProductID = product.ProductID;
+                                                                                    NewDetailEntity.ProductName = product.ProductName;
+                                                                                    NewDetailEntity.Type = product.Type;
+                                                                                    NewDetailEntity.UnitType = product.UnitType;
                                                                                     NewDetailEntity.Quantity = NewDetailEntity.Quantity;
                                                                                     NewDetailEntity.Price = product.Price;
                                                                         }})">
                                                             </Autocomplete>
                                                         </EditTemplate>
                                                         </DataGridColumn>
-                                                        <DataGridColumn Field="@nameof(NewDetailEntity.OrderID)" Caption="Order ID">
+                                                        <DataGridColumn Field="@nameof(NewDetailEntity.OrderID)" Caption="Order Number">
                                                             <DisplayTemplate>
                                                                 <TextEdit @bind-Text="@NewDetailEntity.OrderID"></TextEdit>
                                                             </DisplayTemplate>
@@ -123,14 +137,19 @@
                                                             <DisplayTemplate>
                                                                 <TextEdit @bind-Text="@NewDetailEntity.ProductID"></TextEdit>
                                                             </DisplayTemplate>                                                                                                
-                                                        </DataGridColumn> 
+                                                        </DataGridColumn>
+                                                            <DataGridColumn Field="@nameof(NewDetailEntity.ProductName)" Caption="ProductName">
+                                                                <DisplayTemplate>
+                                                                    <TextEdit @bind-Text="@NewDetailEntity.ProductName"></TextEdit>
+                                                                </DisplayTemplate>
+                                                            </DataGridColumn>
                                                           <DataGridColumn Caption="WarehouseType ">
                                                             <DisplayTemplate>
                                                                 <Select TValue="WarehouseType" @bind-SelectedValue="@NewDetailEntity.Type">
                                                                 @foreach (int WareHouseTypeValue in Enum.GetValues(typeof(WarehouseType)))
                                                                 {
                                                                     <SelectItem TValue="WarehouseType" Value="@((WarehouseType) WareHouseTypeValue)">
-                                                                        @L[$"Enum:WareHouseType.{WareHouseTypeValue}"]
+                                                                        @L[$"Enum:WarehouseType.{WareHouseTypeValue}"]
                                                                     </SelectItem>
                                                                 }
                                                             </Select>
@@ -142,7 +161,7 @@
                                                                     @foreach (int UnitTypeValue in Enum.GetValues(typeof(UnitType)))
                                                                     {
                                                                         <SelectItem TValue="UnitType" Value="@((UnitType) UnitTypeValue)">
-                                                                            @L[$"Enum:UnitType.{UnitTypeValue}"]
+                                                    @L[$"Enum:UnitType.{UnitTypeValue}"]
                                                                         </SelectItem>
                                                                     }
                                                                 </Select>

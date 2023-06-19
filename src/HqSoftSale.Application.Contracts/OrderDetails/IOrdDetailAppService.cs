@@ -15,6 +15,7 @@ namespace HqSoftSale.OrderDetails
     PagedAndSortedResultRequestDto,
     CreateUpdateOrdDetailsDto> 
     {
-        Task<List<OrdDetailDto>> GetProductsByOrderDetail(string orderId);
+        Task<List<OrdDetailDto>> GetProducts(string orderId);
+        Task<Guid> CreateOrderDetails(CreateUpdateOrdDetailsDto orderDetailDto);
     }
 }

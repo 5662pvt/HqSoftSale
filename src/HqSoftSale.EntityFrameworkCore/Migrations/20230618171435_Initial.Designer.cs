@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace HqSoftSale.Migrations
 {
     [DbContext(typeof(HqSoftSaleDbContext))]
-    [Migration("20230618124657_Created_OrderProduct_Entity")]
-    partial class CreatedOrderProductEntity
+    [Migration("20230618171435_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -136,9 +136,6 @@ namespace HqSoftSale.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("DeletionTime");
 
-                    b.Property<double>("ExtenedAmount")
-                        .HasColumnType("double precision");
-
                     b.Property<string>("ExtraProperties")
                         .HasColumnType("text")
                         .HasColumnName("ExtraProperties");
@@ -161,9 +158,6 @@ namespace HqSoftSale.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("OrderStatus")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Quanity")
                         .HasColumnType("integer");
 
                     b.HasKey("Id", "OrderNumber");

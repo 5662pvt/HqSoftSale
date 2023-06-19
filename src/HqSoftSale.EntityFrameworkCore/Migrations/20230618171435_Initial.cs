@@ -406,8 +406,6 @@ namespace HqSoftSale.Migrations
                     OrderNumber = table.Column<string>(type: "text", nullable: false),
                     OrderDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Customer = table.Column<string>(type: "text", nullable: true),
-                    Quanity = table.Column<int>(type: "integer", nullable: false),
-                    ExtenedAmount = table.Column<double>(type: "double precision", nullable: false),
                     OrderStatus = table.Column<int>(type: "integer", nullable: false),
                     ExtraProperties = table.Column<string>(type: "text", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "character varying(40)", maxLength: 40, nullable: true),

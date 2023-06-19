@@ -50,7 +50,6 @@ namespace HqSoftSale.Blazor.Pages.Orders
                 {
                     OrderAppService.CreateAsync(NewEntity);
                     OrderDetailAppService.CreateAsync(NewDetailEntity);                  
-                    NavigationManager.NavigateTo("orders");
                 }
             }
             catch (Exception ex)
@@ -73,6 +72,8 @@ namespace HqSoftSale.Blazor.Pages.Orders
             products = result.Items;
             TotalCount = (int)result.TotalCount;
         }
+
+
 
         //protected virtual async Task CreateProductEntityAsync()
         //{
@@ -105,12 +106,10 @@ namespace HqSoftSale.Blazor.Pages.Orders
         protected virtual async Task CalculatePrice()
         {
             if (!string.IsNullOrEmpty(NewDetailEntity.ProductID))
-            {
-                // Tìm sản phẩm trong productList dựa trên mã sản phẩm
+            {              
                 var product = products.FirstOrDefault(p => p.ProductID == NewDetailEntity.ProductID);
                 if (product != null)
-                {
-                    // Tính toán giá tiền và đưa vào cột Price
+                {                  
                     NewDetailEntity.Price = NewDetailEntity.Quantity * product.Price;
                 }
             }

@@ -94,15 +94,14 @@ namespace HqSoftSale.OrderDetails
             return $"OrderDetail.{sorting}";
         }
 
-        public async Task<List<OrdDetailDto>> GetProductsByOrderDetail(string orderId)
+        public async Task<List<OrdDetailDto>> GetProducts(string orderId)
         {
-            var orderDetails = await _orderDetailRepository.GetListAsync(od => od.OrderID == orderId);
-
             var products = new List<OrdDetailDto>();
-
-            foreach (var orderDetail in orderDetails)
+            var orderDetails = await _orderDetailRepository.GetListAsync(od => od.OrderID == orderId);
+           
+            foreach (var od in orderDetails)
             {
-                var product = await _orderDetailRepository.FirstOrDefaultAsync(p => p.ProductID == orderDetail.ProductID);
+                var product = await _orderDetailRepository.FirstOrDefaultAsync(p => p.ProductID == od.ProductID);
 
                 if (product != null)
                 {
@@ -112,20 +111,21 @@ namespace HqSoftSale.OrderDetails
             return products;
         }
 
-        //public async Task<List<OrdDetailDto>> GetProductsByOrderDetail(string orderId, string productId)
-        //{
-        //    var orderDetail = await _orderDetailRepository.FirstOrDefaultAsync(od =>
-        //        od.OrderID == orderId && od.ProductID == productId);
-
-        //    if (orderDetail == null)
-        //    {
-        //        throw new UserFriendlyException("Order detail not found.");
-        //    }
-
-        //    var products = await _orderDetailRepository.GetListAsync(p =>
-        //        p.ProductID == orderDetail.ProductID);
-
-        //    return ObjectMapper.Map<List<OrderDetail>, List<OrdDetailDto>>(products);
-        //}
+        public async Task<Guid> CreateOrderDetails(CreateUpdateOrdDetailsDto orderDetailDto)
+        {
+            var orderDetail = new OrderDetail
+            {
+                OrderID = orderDetailDto.OrderID,
+                ProductID = orderDetailDto.ProductID,
+                ProductName = orderDetailDto.ProductName,
+                UnitType = orderDetailDto.UnitType,
+                Type = orderDetailDto.Type,
+                Quantity = orderDetailDto.Quantity,
+                Price = orderDetailDto.Price,
+                ExtenedAmount = orderDetailDto.ExtenedAmount
+            };
+            await _orderDetailRepository.InsertAsync(orderDetail);
+            return orderDetail.Id;
+        }
     }
 }

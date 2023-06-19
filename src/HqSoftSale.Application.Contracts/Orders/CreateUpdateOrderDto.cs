@@ -12,10 +12,10 @@ namespace HqSoftSale.Orders
         public DateTime OrderDate { get; set; } = DateTime.Now;
         [Required]
         public string? Customer { get; set; }
-        [Required]
-        public int Quanity { get; set; }
-        [Required]
-        public double ExtenedAmount { get; set; }
+        //[Required]
+        //public int Quanity { get; set; }
+        //[Required]
+        //public double ExtenedAmount { get; set; }
         [Required]
         public OrderStatus OrderStatus { get; set; } = OrderStatus.Open;   
     }

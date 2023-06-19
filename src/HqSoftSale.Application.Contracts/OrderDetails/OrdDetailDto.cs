@@ -16,5 +16,7 @@ namespace HqSoftSale.OrderDetails
         public int Quantity { get; set; }
         public double Price { get; set; }
         public double ExtenedAmount { get; set; }
+
+        public bool IsSelected { get; set; }
     }
 }

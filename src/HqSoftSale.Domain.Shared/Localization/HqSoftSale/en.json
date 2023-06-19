@@ -6,15 +6,15 @@
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
     "Menu:Sales": "Order Management",
 
-    "Enum:OrderStatus.Open": "Open",
-    "Enum:OrderStatus.Complete": "Complete",
-    "Enum:OrderStatus.Cancel": "Cancel",
+    "Enum:OrderStatus.0": "Open",
+    "Enum:OrderStatus.1": "Complete",
+    "Enum:OrderStatus.2": "Cancel",
 
-    "Enum:WarehouseType.WH1": "WH1",
-    "Enum:WarehouseType.WH2": "WH2",
+    "Enum:WarehouseType.0": "WH1",
+    "Enum:WarehouseType.1": "WH2",
 
-    "Enum:UnitType.THUNG": "THUNG",
-    "Enum:UnitType.Cai": "Cai"
+    "Enum:UnitType.0": "THUNG",
+    "Enum:UnitType.1": "Cai"
 
   }
 }

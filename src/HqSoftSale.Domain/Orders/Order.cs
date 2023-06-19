@@ -14,8 +14,8 @@ namespace HqSoftSale.Orders
    
         public string? Customer { get; set; }
 
-        public int Quanity { get; set; }
-        public double ExtenedAmount { get; set; }
+        //public int Quanity { get; set; }
+        //public double ExtenedAmount { get; set; }
 
         public OrderStatus OrderStatus { get; set; }
 

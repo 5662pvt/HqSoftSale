@@ -1,0 +1,71 @@
+﻿@page "/order/edit/editdettail/{Id}"
+
+@using HqSoftSale.Localization;
+@using HqSoftSale.Orders;
+@using HqSoftSale.Products;
+@using HqSoftSale.OrderDetails;
+@using Microsoft.AspNetCore.Components.Authorization;
+@using System.Net.Http;
+@using Volo.Abp.Application.Dtos
+@using Volo.Abp.AspNetCore.Components.Web
+@using System.Net.Http.Json
+@using Volo.Abp.BlazoriseUI;
+@using Volo.Abp.MultiTenancy
+@using Microsoft.Extensions.Localization
+@inject IProductAppService ProductAppService
+@inject HttpClient httpClient
+@inject IOrderAppService OrderAppService
+@inject IOrdDetailAppService OrderDetailAppService
+@inject NavigationManager NavigationManager
+@inject IStringLocalizer<HqSoftSaleResource> L
+@inject AbpBlazorMessageLocalizerHelper<HqSoftSaleResource> LH
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inherits AbpCrudPageBase<IOrderAppService, OrderDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateOrderDto>
+
+
+@*<Row Spacing="2" xs="1">
+    <Span />
+    <Column>
+    </Column>
+    <Column>
+    </Column>
+    <Column>
+    </Column>
+    <Column Style="padding:10px 10px 10px 120px">
+        <Button Color="Color.Primary" Clicked="UpdateEntityAsync">
+            <Icon Name="IconName.Save" IconStyle="IconStyle.Regular" /> @L["Save"]
+        </Button>
+    </Column>
+</Row>
+
+
+<Row>
+    <Column>
+        <Card>
+            <CardBody>
+                <Validations @ref="@EditValidationsRef" Model="@EditingDetailEntity" ValidateOnLoad="false">
+                    <Row Style="padding-bottom:15px">
+                        <Column ColumnSize="ColumnSize.Is4">
+                            <Text>Order Number</Text>
+                            <Field>
+                                <TextEdit @bind-Text="@EditingDetailEntity.ProductName" />
+                            </Field>
+                        </Column>
+                        <Column ColumnSize="ColumnSize.Is4">
+                            <Text>Status</Text>
+                            <Select TValue="UnitType" @bind-SelectedValue="@EditingDetailEntity.UnitType">
+                                @foreach (var order in Enum.GetValues(typeof(UnitType)))
+                                {
+                                    <SelectItem Value="@((UnitType)order)">
+                                        @L[$"Enum:OrderStatus.{order}"]
+                                    </SelectItem>
+                                }
+                            </Select>
+                        </Column>
+                    </Row>
+                   
+                </Validations>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>*@
