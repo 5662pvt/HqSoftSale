@@ -182,6 +182,7 @@ namespace HqSoftSale.Blazor.Pages.Orders
         //        await HandleErrorAsync(ex);
         //    }
         //}
+
         protected virtual async Task OpenEditDetailModalAsync()
         {
             try
@@ -238,11 +239,8 @@ namespace HqSoftSale.Blazor.Pages.Orders
 
         private void GoToEditPage(OrdDetailDto order)
         {
-            NavigationManager.NavigateTo($"order/edit/editdettail/{order.Id}");
+            NavigationManager.NavigateTo($"order/edit/{order.Id}");
         }
-
-
-      
 
         protected virtual async Task CreateEntityAsync()
         {

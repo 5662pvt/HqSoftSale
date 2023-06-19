@@ -126,8 +126,6 @@
                                 <Link Underline="Underline.Always" Clicked="@(() => GoToEditPage(order))">@order.ProductID</Link>
                             </DisplayTemplate>
                         </DataGridColumn>
-                         @*   <DataGridColumn Field="@nameof(OrdDetailDto.ProductID)" Caption="Product ID">                           
-                            </DataGridColumn>*@
                             <DataGridColumn Field="@nameof(OrdDetailDto.ProductName)" Caption="Product Name" />
                              <DataGridColumn Field="@nameof(OrdDetailDto.UnitType)" Caption="UnitType" Context="order" />
                             <DataGridColumn Field="@nameof(OrdDetailDto.Type)" Caption="WarehouseType" Context="order" />
