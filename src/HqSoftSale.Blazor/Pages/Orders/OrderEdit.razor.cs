@@ -239,7 +239,7 @@ namespace HqSoftSale.Blazor.Pages.Orders
 
         private void GoToEditPage(OrdDetailDto order)
         {
-            NavigationManager.NavigateTo($"order/edit/{order.Id}");
+            NavigationManager.NavigateTo($"order/editdetail/{order.Id}");
         }
 
         protected virtual async Task CreateEntityAsync()

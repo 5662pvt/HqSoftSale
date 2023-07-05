@@ -1,0 +1,114 @@
+﻿@using HqSoftSale.Localization;
+@using HqSoftSale.OrderDetails;
+@using HqSoftSale.Orders;
+@using HqSoftSale.Products;
+@using Volo.Abp.Application.Dtos
+@using Volo.Abp.AspNetCore.Components.Web
+@using System.Net.Http.Json
+@using Volo.Abp.AspNetCore.Components.Web.Theming.Layout
+@using Volo.Abp.AspNetCore.Components.Web.Theming.PageToolbars
+@using Volo.Abp.MultiTenancy
+@using Microsoft.Extensions.Localization
+@inject IOrderAppService OrderAppService
+@inject IProductAppService ProductAppService
+@inject IOrdDetailAppService OrderDetailAppService
+@inject HttpClient httpClient
+@inject NavigationManager NavigationManager
+@inject IStringLocalizer<HqSoftSaleResource> L
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inherits AbpCrudPageBase<IOrderAppService, OrderDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateOrderDto>
+
+@*<div class="d-flex flex-fill pt-1 pb-2 w-100">
+    <DxGrid @ref="Grid"
+            Data="ordersList"
+            PageSize="12"
+            KeyFieldName="OrderNumber"
+            ValidationEnabled="false"
+            EditMode="GridEditMode.EditRow"
+            EditorRenderMode="GridEditorRenderMode.Integrated"
+            SelectionMode="GridSelectionMode.Multiple"
+            FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Always"
+            EditModelSaving="Grid_EditModelSaving"
+            ShowSearchBox="true"
+           
+            AllowSelectRowByClick="true">
+        <Columns >      
+            <DxGridCommandColumn Width="160px" />
+            <DxGridDataColumn FieldName="OrderNumber" MinWidth="80" Context="order" />
+            <DxGridDataColumn FieldName="OrderStatus" MinWidth="80" Context="order" />
+            <DxGridDataColumn FieldName="OrderDate" MinWidth="100" Context="order" />
+            <DxGridDataColumn FieldName="Customer" MinWidth="120" Context="order" />
+        </Columns>        
+    </DxGrid>   
+</div>*@
+
+<Button @onclick="Refresh">Reload</Button>
+<DxGrid @ref="Grid"
+        Data="ordersList"
+        PageSize="12"
+        KeyFieldName="OrderNumber"
+        ValidationEnabled="false"
+        EditModelSaving="CreateEntityAsync"
+        PopupEditFormCssClass="pw-800"
+        EditMode="@CurrentEditMode"
+        EditorRenderMode="GridEditorRenderMode.Integrated"
+        SelectionMode="GridSelectionMode.Multiple"
+        AllowSelectRowByClick="true"       
+        FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Always"
+        RowClick="OnRowClick"
+        ShowSearchBox="true">
+
+    <Columns >             
+        <DxGridCommandColumn DeleteButtonVisible=false EditButtonVisible=false  Width="50px" />
+        <DxGridDataColumn FieldName="OrderNumber" MinWidth="80" />
+        <DxGridDataColumn FieldName="OrderStatus" MinWidth="80" />
+        <DxGridDataColumn FieldName="OrderDate" MinWidth="80" />
+        <DxGridDataColumn FieldName="Customer" MinWidth="80" />       
+    </Columns>
+
+    <EditFormTemplate Context="EditFormContext">
+        <DxFormLayout CssClass="w-100">
+            <DxFormLayoutItem Caption="Order Number:" ColSpanMd="6">
+                <TextEdit @bind-Text="@NewEntity.OrderNumber"></TextEdit>
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Status:" ColSpanMd="6">
+                <Select TValue="OrderStatus" @bind-SelectedValue="@NewEntity.OrderStatus">
+                    @foreach (int order in Enum.GetValues(typeof(OrderStatus)))
+                    {
+                        <SelectItem TValue="OrderStatus" Value="@((OrderStatus) order)">
+                            @L[$"Enum:OrderStatus.{order}"]
+                        </SelectItem>
+                    }
+                </Select>               
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Date:" ColSpanMd="6">
+                <DateEdit TValue="DateTime" @bind-Date="NewEntity.OrderDate" />
+            </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="Customer:" ColSpanMd="6">
+                <TextEdit @bind-Text="@NewEntity.Customer"></TextEdit>
+            </DxFormLayoutItem>
+        </DxFormLayout>
+    </EditFormTemplate>
+</DxGrid>
+
+
+@code{
+
+    bool UsePopupEditForm { get; set; }
+    GridEditMode CurrentEditMode { get { return UsePopupEditForm ? GridEditMode.PopupEditForm : GridEditMode.EditForm; } }
+    async Task UsePopupEditForm_CheckedChanged(bool value)
+    {
+        UsePopupEditForm = value;
+        await Grid.CancelEditAsync();
+    }
+ 
+    async Task Grid_EditModelSaving(GridEditModelSavingEventArgs e)
+    {
+        var editableEmployee = (CreateUpdateOrderDto)e.EditModel;
+        if (e.IsNew)
+            await OrderAppService.CreateAsync(editableEmployee);
+    }
+}
+
+
+

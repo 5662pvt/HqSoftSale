@@ -54,9 +54,12 @@ namespace HqSoftSale.Blazor.Pages.Orders
         {
             NavigationManager.NavigateTo($"order/edit/{order.Id}");
         }
+
         private void GoToCreatePage()
         {
-            NavigationManager.NavigateTo("order/new");
+            NavigationManager.NavigateTo($"/order/new");
         }
+        
+       
     }
 }

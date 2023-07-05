@@ -106,7 +106,7 @@
                 <DataGrid TItem="OrdDetailDto"
                           Data="@OrdDetailList"
                           SortMode="DataGridSortMode.Single"
-                          SelectionMode="DataGridSelectionMode.Multiple"
+                          SelectionMode="Blazorise.DataGrid.DataGridSelectionMode.Multiple"
                           Striped
                           Sortable
                           ShowPager
@@ -171,7 +171,7 @@
                                             <DataGrid TItem="OrdDetailDto"
                                                         Editable
                                                         ShowPager
-                                                      EditMode="DataGridEditMode.Inline"
+                              EditMode="Blazorise.DataGrid.DataGridEditMode.Inline"
                                                       CommandMode="DataGridCommandMode.ButtonRow">
                                                 <DataGridColumns>                                                  
                                                     <DataGridColumn Field="@nameof(CreateDetailEntity.OrderID)" Caption="ProductName" Editable>

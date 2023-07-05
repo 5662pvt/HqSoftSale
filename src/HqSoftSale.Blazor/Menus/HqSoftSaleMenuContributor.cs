@@ -61,6 +61,12 @@ public class HqSoftSaleMenuContributor : IMenuContributor
                           l["Orders"],
                           url: "/orders"
                       )
+                  ).AddItem(
+                      new ApplicationMenuItem(
+                          "OrderStore.Orders",
+                          l["OrdersTest"],
+                          url: "/ordersTest"
+                      )
                   )
               );
         context.Menu.AddItem(

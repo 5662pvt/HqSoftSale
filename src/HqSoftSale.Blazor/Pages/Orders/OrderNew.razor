@@ -61,7 +61,7 @@
                             <Select TValue="OrderStatus" @bind-SelectedValue="@NewEntity.OrderStatus">
                                 @foreach (var order in Enum.GetValues(typeof(OrderStatus)))
                                 {
-                                    <SelectItem Value="@((OrderStatus)order)">
+                                    <SelectItem TValue="OrderStatus" Value="@((OrderStatus)order)">
                                         @L[$"Enum:OrderStatus.{order}"]
                                     </SelectItem>
                                 }
@@ -101,7 +101,7 @@
                                             <DataGrid TItem="OrdDetailDto"
                                                         Editable
                                                         ShowPager
-                                                      EditMode="DataGridEditMode.Inline"
+                                  EditMode="Blazorise.DataGrid.DataGridEditMode.Inline"
                                                       CommandMode="DataGridCommandMode.ButtonRow">
                                                 <DataGridColumns>                                                  
                                                     <DataGridColumn Field="@nameof(NewDetailEntity.OrderID)" Caption="ProductName" Editable>
